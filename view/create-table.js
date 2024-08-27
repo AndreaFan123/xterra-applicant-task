@@ -4,6 +4,8 @@ import {
   filterTheFastest,
 } from "../controller/sorted-data.js";
 
+import { formattedParseTime } from "../utils/parse-time-utils.js";
+
 export function createTable(data) {
   const table = document.querySelector("#table");
   const tableThead = document.querySelector("#table-head");
@@ -45,6 +47,9 @@ export function createTable(data) {
 
   sortedData.map((result) => {
     const lastName = result.last_name;
+    const swimTime = formattedParseTime(fastestData["swim"].time);
+    const bikeTime = formattedParseTime(fastestData["bike"].time);
+    const runTime = formattedParseTime(fastestData["run"].time);
     const row = document.createElement("tr");
     row.innerHTML = `
       <td>${result.first_name}</td>
@@ -55,17 +60,17 @@ export function createTable(data) {
       <td>${result.total_time}</td>
       <td>${
         lastName === matchedFastestOfSwim
-          ? `<span class="fastest">🥇 Swimming</span>`
+          ? `<span class="fastest">🥇 Swimming (${swimTime})</span>`
           : ""
       } 
       ${
         lastName === matchedFastestBike
-          ? `<span class="fastest">🥇 Biking</span>`
+          ? `<span class="fastest">🥇 Biking (${bikeTime})</span>`
           : ""
       } 
     ${
       lastName === matchedFastestRun
-        ? `<span class="fastest">🥇 Running</span>`
+        ? `<span class="fastest">🥇 Running (${runTime})</span>`
         : ""
     }
       </td>

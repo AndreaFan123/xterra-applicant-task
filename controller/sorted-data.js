@@ -1,16 +1,7 @@
 // find out which athlete had the fastest swimming time, bike time and run time
 // Exclude 00:00:00 and 23:59:59
 
-function parseTime(time) {
-  const [hr, min, sec] = time.split(":").map(Number);
-  const seconds = hr * 3600 + min * 60 + sec;
-  const validTime = seconds !== 0 && seconds !== 86399;
-
-  if (validTime === false) {
-    return;
-  }
-  return seconds;
-}
+import { parseTime } from "../utils/parse-time-utils.js";
 
 export function filterTheFastest(category, sortedData, fastestData) {
   return sortedData.find(
