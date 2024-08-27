@@ -31,7 +31,7 @@ export function createTable(data) {
     "Division",
     "Nationality",
     "Time",
-    "Fastest",
+    "Disciplines(Swimming / Biking / Running)",
   ];
   tableHeaders.map((header) => {
     const th = document.createElement("th");
@@ -60,17 +60,17 @@ export function createTable(data) {
       <td>${result.total_time}</td>
       <td>${
         lastName === matchedFastestOfSwim
-          ? `<span class="fastest">🥇 Swimming (${swimTime})</span>`
+          ? `<span">🥇 Swimming (${swimTime})</span>`
           : ""
       } 
       ${
         lastName === matchedFastestBike
-          ? `<span class="fastest">🥇 Biking (${bikeTime})</span>`
+          ? `<span">🥇 Biking (${bikeTime})</span>`
           : ""
       } 
     ${
       lastName === matchedFastestRun
-        ? `<span class="fastest">🥇 Running (${runTime})</span>`
+        ? `<span">🥇 Running (${runTime})</span>`
         : ""
     }
       </td>
