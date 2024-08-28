@@ -1,59 +1,70 @@
 # XTERRA Application Task
 
-### The project
+## Vanilla JS
 
-This repository contains a skeleton demo project that you will use as the staring point of the task. The site fetches a set of triathlon race results, and displays them in a table on the page. Your task is to improve and build upon this, as instructed below.
+### Task 1: To improve the fetching of the data. The endpoint is setup to fail occasionally, and this needs to be handled properly. If the request fails, the user should receive some kind of message or alert, and not see the default error page.
 
-### Setup
+#### Walkthrough:
 
-Clone this repository to your computer. You will work locally, and should not ever push any commits back to this repository. You may set up your own remote if you wish.
+1. Separated the logic and created functions for fetching data, create Table and display error message. Create MVC pattern.
+   - model: Contains the logic for fetching data.
+   - view: Contains the logic for creating table and displaying error message.
+   - controller: Contains the logic for sorting data.
+2. Added try catch block to handle the error and display the error message.
+3. Remove table headers from HTML and added it to view, reason being:
+   - Headers should be displayed with table body on the page when the data is fetched successfully.
+4. Simplified and unified the error message as it would be easier for user to understand and it's not safe to revile the detail of the error.
 
-Once you have the repository cloned onto your computer, run `npm install` and `npm run dev` to get started. The site should be available at localhost:5173.
+---
 
-### The task
+### Task 2: To order the results. The results from the server are not ordered, and they have no position field. They need to be ordered based on total time, with the fastest time being first. Results that do not have a realistic total time can be considered incorrect, and should be removed.
 
-Once setup, if you view the page you should see a set of results displayed. If you look at the `main.js` file, you will see that the results are fetched from the endpoint, and then looped over and each result is inserted into a table on the page.
+#### Walkthrough:
 
-Step one is to improve the fetching of the data. The endpoint is setup to fail occasionally, and this needs to be handled properly. If the request fails, the user should recieve some kind of message or alert, and not see the default error page.
+1. Parse time and convert it to seconds.
+2. Calculate total time and sort the data based on total time.
+3. Display sorted total time in the table with ascending order.
 
-Step two is to order the results. The results from the server are not ordered, and they have no position field. They need to be ordered based on total time, with the fastest time being first. Results that do not have a realistic total time can be considered incorrect, and should be removed.
+---
 
-Step three is to indicate on the page in some way which athlete had the fastest swim time, fastest bike time and fastest run time. Each result will have the split times included, but if the time is not realistic (i.e. "00:00:00" or "23:59:59"), it should not be considered valid.
+### Task 3: To indicate on the page in some way which athlete had the fastest swim time, fastest bike time and fastest run time. Each result will have the split times included, but if the time is not realistic (i.e. "00:00:00" or "23:59:59"), it should not be considered valid.
 
-The rest of the task is open ended, you are free to expand or improve on the site in any way you please. You should not spend too much time, and applicants will not be rewarded for spending an excessive amount of time.
+#### Walkthrough:
 
-### The structure of results
+1. Create an object with keys swim, bike and run and assign the athlete with the fastest time to each key.
+2. Loop through the data and create a new object called splits, inside the splits, we need to find the target category and its time.
+3. Compare the splits time with the fastest time and if it's the fastest time, assign the athlete and time to the keys.
 
-The data returned by the endpoint will be valid json, and is an array of result objects. Each result has the following structure:
+---
 
-```
-{
-    first_name: "athlete's first name",
-    last_name: "athlete's last name",
-    gender: "either M or F",
-    nationality: "two letter country code, e.g. US",
-    division: "athlete division, e.g. M25-29",
-    total_time: "HH:MM:SS",
-    splits: [
-        {name: "name of split", time: "HH:MM:SS"}, ...
-    ]
-}
-```
+## React Version
 
-For this result set, you may assume all results will include the same set of splits, which are swim_time, bike_time, run_time, t1_time and t2_time. It is up to you whether you want to display the splits with the results or not.
+### How to run the application
 
-### Additional Notes
+1. Clone the repository or download the zip file.
+2. Open the terminal and navigate to the project directory.
+3. Run `npm install` to install the dependencies.
+4. Run `npm dev` to start the application.
 
-**Styling:** The project has been setup to make Tailwind css is available from the start, but you do not have to use it. You may use whatever aproach to CSS works best for you. While some simple styling would be appreciated, please do not spend too much time on this.
+### Component Design
 
-**Javascript/Typescript:** Thye project has been setup with just plain Javascript, but you are welcome to add Typescript if you wish.
+#### Table
 
-**React, Vue an other Frameworks:** You are welcome to introduce a library such as React, Vue or Svelte if you wish, and you may restructure the project accordingly. However, please do not use frameworks such as Next.js, Nuxt or SvelteKit.
+Separated table component into three parts:
 
-**Time spent:** You are not required to spend an excessive amount of time on this task, and will not be rewarded for doing so. If you have ideas of how you would like to improve or implement something, but feel it would take too much of your time, please feel free to just leave notes of what you'd like to do.
+1. `TableContainer`: Receives the data from the API and passes it as props to other sub-components.
+2. `TableHeader`: Contains the logic for creating table headers.
+3. `TableBody`: Contains the logic for creating table rows.
 
-### Submitting your work
+#### Error Message
 
-Of course you cannot push or submit your work as a pull-request on this repository, as it is open to all applicants.
+Error message component is created to display the error message when the API fails.
 
-The suggested method is to push your work to your own repository, which is either public, or where you can provide access. If you are not comfortable doing this you are also welcome to email me your submission.
+---
+
+## Nice to have
+
+1. Adding loading spinner while the data is being fetched. (In React, I only use text to display loading message)
+2. Implementing filter button for each category.
+3. Implementing pagination for the table.
+4. Adding unit tests for the components.
