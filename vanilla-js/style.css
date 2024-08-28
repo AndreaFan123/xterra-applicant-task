@@ -10,7 +10,25 @@
     @apply h-screen w-full max-w-full px-4 mx-auto;
   }
 
+  table {
+    @apply w-full my-4 max-w-full sm:max-w-[500px] md:max-w-[650px] lg:max-w-[900px] xl:max-w-[1200px] mx-auto;
+  }
+
+  thead {
+    @apply text-center border;
+  }
+
+  tbody {
+    @apply text-center;
+  }
+
   td {
     @apply border;
+  }
+}
+
+@layer components {
+  .error-message {
+    @apply w-full h-screen max-w-full flex justify-center items-center mx-auto font-bold text-red-600;
   }
 }
