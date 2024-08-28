@@ -58,6 +58,7 @@ export function createTable(data) {
       <td>${result.division}</td>
       <td>${result.nationality}</td>
       <td>${result.total_time}</td>
+
       <td>${lastName === matchedFastestOfSwim
         ? `<span">🥇 Swimming (${swimTime})</span>`
         : ""
@@ -70,6 +71,21 @@ export function createTable(data) {
         ? `<span">🥇 Running (${runTime})</span>`
         : ""
       }
+      <td>${
+        lastName === matchedFastestOfSwim
+          ? `<span">🥇 Swimming (${swimTime})</span>`
+          : ""
+      } 
+      ${
+        lastName === matchedFastestBike
+          ? `<span">🥇 Biking (${bikeTime})</span>`
+          : ""
+      } 
+    ${
+      lastName === matchedFastestRun
+        ? `<span">🥇 Running (${runTime})</span>`
+        : ""
+    }
       </td>
     
     `;

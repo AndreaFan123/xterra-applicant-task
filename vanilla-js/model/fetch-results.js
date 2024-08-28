@@ -13,7 +13,6 @@ export async function fetchResults() {
       throw new Error("Something went wrong! We will fix immediately");
     }
     const data = await resp.json();
-    console.log(data);
     return data;
   } catch (error) {
     throw new Error("Something went wrong! We will fix immediately");
