@@ -1,7 +1,12 @@
 import { ResultType } from "../../constants/result";
-import { parseTime } from "../../utils/parse-time";
-// import TableBody from "./table-body";
-// import TableHeader from "./table-header";
+import { formattedParseTime } from "../../utils/parse-time";
+import {
+  filterTheFastest,
+  findFastestTime,
+  sortedTotalTimeData,
+} from "../../utils/table-sort";
+import TableHead from "./table-head";
+import TableRow from "./table-row";
 
 export default function TableContainer({
   result,
@@ -30,88 +35,40 @@ export default function TableContainer({
       .join(" ");
   });
 
-  function sortedTotalTimeData(result: ResultType[]) {
-    const filterOutNotValidTotalTime = result.filter((time) =>
-      parseTime(time.total_time)
-    );
+  const sortedData = sortedTotalTimeData(result as ResultType[]);
+  const fastestData = findFastestTime(result as ResultType[]);
 
-    const sortedTotalTime = filterOutNotValidTotalTime.sort(
-      (time_a, time_b) => {
-        const time_a_in_seconds = parseTime(time_a.total_time);
-        const time_b_in_seconds = parseTime(time_b.total_time);
-
-        if (time_a_in_seconds && time_b_in_seconds) {
-          return time_a_in_seconds - time_b_in_seconds;
-        }
-        return 0;
-      }
-    );
-    return sortedTotalTime;
-  }
-
-  // function findFastestTime(result: ResultType[]) {
-  //   const fastestResult = {
-  //     swim: { athlete: null, time: Infinity },
-  //     bike: { athlete: null, time: Infinity },
-  //     run: { athlete: null, time: Infinity },
-  //   };
-
-  //   result.forEach((athlete) => {
-  //     const splits = {
-  //       swim_time: parseTime(
-  //         athlete.splits.find((split) => split.name === "swim_time").time
-  //       ),
-  //       bike_time: parseTime(
-  //         athlete.splits.find((split) => split.name === "bike_time").time
-  //       ),
-  //       run_time: parseTime(
-  //         athlete.splits.find((split) => split.name === "run_time").time
-  //       ),
-  //     };
-
-  //     if (splits?.swim_time < fastestResult["swim"].time) {
-  //       fastestResult["swim"] = { athlete, time: splits.swim_time };
-  //     }
-
-  //     if (splits.bike_time < fastestResult["bike"].time) {
-  //       fastestResult["bike"] = { athlete, time: splits.bike_time };
-  //     }
-
-  //     if (splits.run_time < fastestResult["run"].time) {
-  //       fastestResult["run"] = { athlete, time: splits.run_time };
-  //     }
-  //   });
-
-  //   return fastestResult;
-  // }
-
-  const sortedResult = sortedTotalTimeData(result || []);
-  // const fastestTime = findFastestTime(result || []);
+  const matchedFastestOfSwim = filterTheFastest(
+    "swim",
+    sortedData,
+    fastestData
+  );
+  const matchedFastestBike = filterTheFastest("bike", sortedData, fastestData);
+  const matchedFastestRun = filterTheFastest("run", sortedData, fastestData);
+  const swimTime = formattedParseTime(fastestData["swim"].time);
+  const bikeTime = formattedParseTime(fastestData["bike"].time);
+  const runTime = formattedParseTime(fastestData["run"].time);
 
   return (
     <table>
       <thead>
         <tr>
           {headers?.map((header, index) => (
-            <th key={index}>
-              {header === "Splits"
-                ? "Discipline (Swimming / Bike / Running)"
-                : header}
-            </th>
+            <TableHead key={index} header={header} />
           ))}
         </tr>
       </thead>
       <tbody>
-        {sortedResult?.map((athlete, index) => (
-          <>
-            <tr key={index}>
-              <td>{athlete.first_name}</td>
-              <td>{athlete.last_name}</td>
-              <td>{athlete.gender}</td>
-              <td>{athlete.nationality}</td>
-              <td>{athlete.total_time}</td>
-            </tr>
-          </>
+        {sortedData?.map((athlete, index) => (
+          <TableRow
+            key={index}
+            athlete={athlete}
+            fastestAthleteAndTime={{
+              swim: { name: matchedFastestOfSwim, time: swimTime },
+              bike: { name: matchedFastestBike, time: bikeTime },
+              run: { name: matchedFastestRun, time: runTime },
+            }}
+          />
         ))}
       </tbody>
     </table>
