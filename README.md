@@ -62,6 +62,16 @@ Error message component is created to display the error message when the API fai
 
 ---
 
+## Testing
+
+### Test cases
+
+- [x]Test case for fetching data from the API.
+- [ ]Test case for sorting the data based on total time.
+- [ ]Test case for finding the fastest swim, bike and run time.
+
+---
+
 ## Nice to have
 
 1. Adding loading spinner while the data is being fetched. (In React, I only use text to display loading message)
